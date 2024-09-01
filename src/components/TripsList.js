@@ -3,12 +3,23 @@ import tripsData from "../tripsData";
 import SearchBar from "./SearchBar";
 import TripItem from "./TripItem";
 import Nav from "./Nav";
+import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function TripsList() {
   const [query, setQuery] = useState("");
+  const { difficulty } = useParams();
   const trips = tripsData
-    .filter((trip) => trip.name.toLowerCase().includes(query.toLowerCase()))
+    .filter((trip) =>
+      trip.name.toLowerCase().includes(query.toLowerCase()) &&
+      difficulty == "all"
+        ? true
+        : trip.difficulty == difficulty
+        ? true
+        : false
+    )
     .map((trip, index) => <TripItem trip={trip} key={index} />);
+
   return (
     <>
       <Nav />
@@ -20,9 +31,15 @@ function TripsList() {
           <br />
           <SearchBar setQuery={setQuery} />
           <center>
-            <button className="btn btn-primary btn-xl">Easy</button>
-            <button className="btn btn-primary btn-xl">Moderate</button>
-            <button className="btn btn-primary btn-xl">Hard</button>
+            <Link to={"/TripsList/easy"} className="btn btn-primary btn-xl">
+              Easy
+            </Link>
+            <Link to={"/TripsList/moderate"} className="btn btn-primary btn-xl">
+              Moderate
+            </Link>
+            <Link to={"/TripsList/hard"} className="btn btn-primary btn-xl">
+              Hard
+            </Link>
           </center>
           <div className="divider-custom">
             <div className="divider-custom-line"></div>

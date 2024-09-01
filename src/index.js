@@ -14,7 +14,7 @@ const router = createBrowserRouter([
     element: <Home />,
   },
   {
-    path: "/TripsList",
+    path: "/TripsList/:difficulty",
     element: <TripsList />,
   },
   {
